@@ -20,6 +20,17 @@ def main():
                 print(url_path)
                 if url_path == "/":
                     conn.send(b'HTTP/1.1 200 OK\r\n\r\n')
+                elif url_path[:5] == "/echo":
+                    print(url_path)
+                    echo_str = url_path.split("/")[2]
+                    res_str = (f"HTTP/1.1 200 OK\r\n"
+                              f"Content-Type: text/plain\r\n"
+                              f"Content-Length: {len(echo_str)}\r\n"
+                              f"\r\n"
+                              f"{echo_str}")
+                    print(res_str)
+                    conn.send(bytes(res_str, 'utf-8'))
+
                 else:
                     conn.send(b'HTTP/1.1 404 Not Found\r\n\r\n')
 
